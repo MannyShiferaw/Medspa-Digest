@@ -1,0 +1,43 @@
+name: Daily digest
+
+# Runs the scanner in GitHub's cloud instead of on Manny's Mac, so it
+# doesn't depend on the machine being on, awake, or having Full Disk
+# Access granted to cron (the problem we hit running this locally).
+on:
+  schedule:
+    # 13:00 UTC ~= 10:00 AM Atlantic Daylight Time (UTC-3, spring-fall).
+    # During Atlantic Standard Time (UTC-4, winter) this becomes ~9:00 AM -
+    # GitHub Actions cron is always UTC and doesn't shift for DST.
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}   # lets you click "Run workflow" on GitHub for an on-demand test
+  push:
+    branches: [main]      # first push (and any future code change) builds + deploys immediately
+
+permissions:
+  contents: write
+
+jobs:
+  scan-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scanner
+        run: python scanner.py run
+
+      - name: Commit and push updated data + digest + site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/news.db output/ docs/
+          git diff --cached --quiet || git commit -m "Daily digest update"
+          git push
