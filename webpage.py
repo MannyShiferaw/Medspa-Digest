@@ -164,14 +164,14 @@ def build_site(conn, min_score: int) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Youth Bar Industry Digest</title>
+<title>The Aesthetic Brief</title>
 {STYLE}
 </head>
 <body>
 <div class="digest">
   <header class="masthead">
-    <p class="eyebrow">Youth Bar Medical Aesthetics &mdash; Industry Intelligence</p>
-    <h1 class="masthead-title">Industry Digest</h1>
+    <p class="eyebrow">Independent Intelligence for Aesthetic Medicine</p>
+    <h1 class="masthead-title">The Aesthetic Brief</h1>
     <p class="masthead-meta">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days</p>
     <p class="masthead-note">Automatically compiled daily from regulator feeds, trade publications, and targeted news searches. Relevance is scored 1&ndash;5 by keyword rules (not AI); anything scoring below 3 is discarded.</p>
   </header>

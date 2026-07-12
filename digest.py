@@ -27,7 +27,7 @@ def build_digest(conn, fetched_at: str, category: str | None = None) -> str:
     for row in rows:
         by_category.setdefault(row["category"], []).append(row)
 
-    lines = [f"# Youth Bar Industry Digest — {date.today().isoformat()}", ""]
+    lines = [f"# The Aesthetic Brief — {date.today().isoformat()}", ""]
 
     if not rows:
         lines.append("No new relevant items found in this run.")
