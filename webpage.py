@@ -23,83 +23,92 @@ GEO_LABELS = {
     "global": "Global",
 }
 
+# Light mode is the brand's home base (warm off-grey + brass accent).
+# Dark mode reuses the same family, shifted onto a warm near-black ground -
+# same brass accent, so it reads as one brand rather than an auto-inverted
+# afterthought.
 STYLE = """<style>
 :root {
-  --bg: #efeee7;
-  --surface: #fbfaf6;
-  --ink: #21231f;
-  --ink-soft: #5b5f55;
-  --ink-faint: #8b9086;
-  --accent: #3e6357;
-  --accent-strong: #2c483f;
-  --accent-soft: #e1e8e1;
-  --accent-soft-ink: #2c483f;
-  --line: #dbdacf;
-  --line-strong: #c7c6b9;
-  --tick-empty: #d6d5c8;
-  --font-display: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --bg: #f4f3f0;
+  --panel: #ffffff;
+  --ink: #201d17;
+  --ink-soft: #67624f;
+  --ink-faint: #948e79;
+  --accent: #9c7233;
+  --accent-strong: #7a5623;
+  --accent-soft: #efe6d4;
+  --line: #e2ddd0;
+  --line-strong: #cfc8b6;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
   --font-body: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #141714; --surface: #1b1f1b; --ink: #ece9e2; --ink-soft: #a9ac9f;
-    --ink-faint: #767a6e; --accent: #7fac99; --accent-strong: #a3c9b8;
-    --accent-soft: #23322c; --accent-soft-ink: #a3c9b8; --line: #2c2f29;
-    --line-strong: #3a3d35; --tick-empty: #33352e;
+    --bg: #16140f; --panel: #1d1a13; --ink: #f3ede0; --ink-soft: #b7ac95;
+    --ink-faint: #7c7361; --accent: #c19a5b; --accent-strong: #e0bc7f;
+    --accent-soft: #2c2618; --line: #322c22; --line-strong: #453d2d;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #141714; --surface: #1b1f1b; --ink: #ece9e2; --ink-soft: #a9ac9f;
-  --ink-faint: #767a6e; --accent: #7fac99; --accent-strong: #a3c9b8;
-  --accent-soft: #23322c; --accent-soft-ink: #a3c9b8; --line: #2c2f29;
-  --line-strong: #3a3d35; --tick-empty: #33352e;
+  --bg: #16140f; --panel: #1d1a13; --ink: #f3ede0; --ink-soft: #b7ac95;
+  --ink-faint: #7c7361; --accent: #c19a5b; --accent-strong: #e0bc7f;
+  --accent-soft: #2c2618; --line: #322c22; --line-strong: #453d2d;
 }
 :root[data-theme="light"] {
-  --bg: #efeee7; --surface: #fbfaf6; --ink: #21231f; --ink-soft: #5b5f55;
-  --ink-faint: #8b9086; --accent: #3e6357; --accent-strong: #2c483f;
-  --accent-soft: #e1e8e1; --accent-soft-ink: #2c483f; --line: #dbdacf;
-  --line-strong: #c7c6b9; --tick-empty: #d6d5c8;
+  --bg: #f4f3f0; --panel: #ffffff; --ink: #201d17; --ink-soft: #67624f;
+  --ink-faint: #948e79; --accent: #9c7233; --accent-strong: #7a5623;
+  --accent-soft: #efe6d4; --line: #e2ddd0; --line-strong: #cfc8b6;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin: 0; -webkit-font-smoothing: antialiased; }
 .tabular { font-variant-numeric: tabular-nums; }
 .digest { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
 .masthead { margin-bottom: 2.5rem; }
-.eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.9rem; }
-.masthead-title { font-family: var(--font-display); font-size: clamp(2.1rem, 5vw, 2.75rem); font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 0.6rem; text-wrap: balance; }
-.masthead-meta { font-size: 0.95rem; color: var(--ink-soft); margin: 0 0 1.1rem; }
+.eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 1rem; }
+.masthead-title { font-family: var(--font-display); font-style: italic; font-size: clamp(2.1rem, 5vw, 2.6rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 0.6rem; text-wrap: balance; }
+.masthead-meta { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1.1rem; }
 .masthead-note { font-size: 0.85rem; line-height: 1.55; color: var(--ink-faint); margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--line); max-width: 56ch; }
 .category-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3.25rem; }
-.nav-chip { font-size: 0.78rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 100px; padding: 0.4rem 0.85rem; transition: border-color 0.15s ease, color 0.15s ease; }
+.nav-chip { font-size: 0.78rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 100px; padding: 0.4rem 0.85rem; transition: border-color 0.15s ease, color 0.15s ease; }
 .nav-chip:hover { border-color: var(--accent); color: var(--accent-strong); }
 .nav-count { color: var(--ink-faint); font-variant-numeric: tabular-nums; }
 .category { margin-bottom: 3.25rem; scroll-margin-top: 1.5rem; }
 .category-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line-strong); padding-bottom: 0.6rem; margin-bottom: 1.6rem; }
-.category-label { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin: 0; }
+.category-label { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; font-weight: 500; margin: 0; }
 .category-count { font-size: 0.78rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .item-list { display: flex; flex-direction: column; }
 .item { padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
 .item:first-child { padding-top: 0; }
 .item:last-child { border-bottom: none; }
-.item-title { font-family: var(--font-display); font-size: 1.08rem; font-weight: 500; line-height: 1.35; margin: 0 0 0.5rem; text-wrap: balance; }
+.item-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; line-height: 1.35; margin: 0 0 0.55rem; text-wrap: balance; }
 .item-title a { color: var(--ink); text-decoration: none; background-image: linear-gradient(var(--ink-faint), var(--ink-faint)); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size 0.2s ease, color 0.2s ease; }
 .item-title a:hover { color: var(--accent-strong); background-size: 100% 1px; }
 .item-title a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-.item-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.76rem; color: var(--ink-faint); margin-bottom: 0.45rem; }
-.meta-source { text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; color: var(--ink-soft); }
+.item-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-faint); margin-bottom: 0.45rem; }
+.meta-source { text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); }
 .meta-dot { color: var(--line-strong); }
-.geo-pill { font-size: 0.7rem; font-weight: 600; padding: 0.1rem 0.55rem; border-radius: 100px; border: 1px solid var(--line-strong); color: var(--ink-soft); white-space: nowrap; }
-.geo-pill.geo-local { background: var(--accent-soft); border-color: transparent; color: var(--accent-soft-ink); }
-.star-meter { display: inline-flex; gap: 0.2rem; margin-left: auto; }
-.tick { width: 7px; height: 7px; border-radius: 1.5px; background: var(--tick-empty); }
-.tick.is-filled { background: var(--accent); }
-.item-summary { font-size: 0.88rem; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 62ch; }
+.geo-pill { font-weight: 700; letter-spacing: 0.03em; padding: 0.12rem 0.5rem; border-radius: 4px; background: var(--panel); border: 1px solid var(--line-strong); color: var(--ink-soft); text-transform: uppercase; white-space: nowrap; }
+.geo-pill.geo-local { background: var(--accent-soft); border-color: transparent; color: var(--accent-strong); }
+.meta-date { color: var(--ink-faint); }
+.relevance-score { margin-left: auto; font-weight: 700; color: var(--accent-strong); background: var(--accent-soft); padding: 0.12rem 0.5rem; border-radius: 4px; }
+.item-summary { font-family: var(--font-body); font-size: 0.88rem; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 62ch; }
 .empty-note { font-size: 0.88rem; color: var(--ink-faint); font-style: italic; }
 .colophon { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--ink-faint); }
-.colophon code { font-family: ui-monospace, "SF Mono", Menlo, monospace; background: var(--surface); border: 1px solid var(--line); padding: 0.05em 0.4em; border-radius: 4px; }
-@media (max-width: 480px) { .digest { padding: 2.75rem 1.1rem 4rem; } .item-meta { row-gap: 0.4rem; } .star-meter { margin-left: 0; } }
+.colophon code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.4em; border-radius: 4px; }
+@media (max-width: 480px) { .digest { padding: 2.75rem 1.1rem 4rem; } .item-meta { row-gap: 0.4rem; } .relevance-score { margin-left: 0; } }
 </style>
 """
+
+
+def format_date(iso_string: str) -> str:
+    """Short 'Jul 14' style date for the item meta line."""
+    if not iso_string:
+        return ""
+    try:
+        return datetime.fromisoformat(iso_string).strftime("%b %-d")
+    except ValueError:
+        return ""
 
 
 def render_item(row) -> str:
@@ -111,9 +120,10 @@ def render_item(row) -> str:
     score = row["relevance_score"] or 0
     summary = row["summary"] or ""
     show_summary = summary and summary.lower()[:40] not in row["title"].lower()
+    item_date = format_date(row["published_at"] or row["fetched_at"])
 
-    stars = "".join(f'<span class="tick {"is-filled" if i < score else ""}"></span>' for i in range(5))
     summary_html = f'<p class="item-summary">{html.escape(summary)}</p>' if show_summary else ""
+    date_html = f'<span class="meta-dot">&middot;</span><span class="meta-date">{item_date}</span>' if item_date else ""
 
     return f"""
     <article class="item">
@@ -122,7 +132,8 @@ def render_item(row) -> str:
         <span class="meta-source">{source}</span>
         <span class="meta-dot">&middot;</span>
         <span class="geo-pill geo-{geo_key}">{geo_label}</span>
-        <span class="star-meter" title="Relevance {score}/5">{stars}</span>
+        {date_html}
+        <span class="relevance-score" title="Relevance score">{score}/5</span>
       </div>
       {summary_html}
     </article>
