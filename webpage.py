@@ -6,6 +6,7 @@ only shows *that run's* new items and is often empty), this always
 shows a living page of recent coverage.
 """
 
+import base64
 import html
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -15,6 +16,17 @@ from db import fetch_recent
 
 DOCS_DIR = Path(__file__).parent / "docs"
 WINDOW_DAYS = 7
+
+# Simple monogram favicon (dark ink square, italic brass "A") - kept as an
+# inline SVG data URI so there's no separate binary asset file to manage.
+_FAVICON_RAW_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+    '<rect width="64" height="64" rx="14" fill="#201d17"/>'
+    '<text x="32" y="46" font-family="Georgia, serif" font-style="italic" '
+    'font-size="38" font-weight="600" fill="#c19a5b" text-anchor="middle">A</text>'
+    "</svg>"
+)
+FAVICON_SVG = base64.b64encode(_FAVICON_RAW_SVG.encode()).decode()
 
 GEO_LABELS = {
     "local": "Halifax / Atlantic Canada",
@@ -170,12 +182,28 @@ def build_site(conn, min_score: int) -> str:
     body = "".join(sections) if sections else '<p class="empty-note">No relevant items found in the last 7 days.</p>'
     nav = f'<nav class="category-nav" aria-label="Jump to category">{"".join(nav_items)}</nav>' if nav_items else ""
 
+    description = (
+        "Daily curated intelligence for medical aesthetics operators - regulatory changes, "
+        "clinical trends, industry M&A, and consumer shifts across the aesthetic medicine industry."
+    )
+    site_url = "https://theaestheticbrief.ca/"
+
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Aesthetic Brief</title>
+<meta name="description" content="{html.escape(description)}">
+<link rel="canonical" href="{site_url}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Aesthetic Brief">
+<meta property="og:description" content="{html.escape(description)}">
+<meta property="og:url" content="{site_url}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Aesthetic Brief">
+<meta name="twitter:description" content="{html.escape(description)}">
+<link rel="icon" href="data:image/svg+xml;base64,{FAVICON_SVG}">
 {STYLE}
 </head>
 <body>
@@ -197,8 +225,25 @@ def build_site(conn, min_score: int) -> str:
 """
 
 
+def write_sitemap() -> Path:
+    """Just the homepage for now - add an entry per page if/when archive pages exist."""
+    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://theaestheticbrief.ca/</loc>
+    <lastmod>{date.today().isoformat()}</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+</urlset>
+"""
+    out_path = DOCS_DIR / "sitemap.xml"
+    out_path.write_text(sitemap, encoding="utf-8")
+    return out_path
+
+
 def write_site(conn, min_score: int = 3) -> Path:
     DOCS_DIR.mkdir(exist_ok=True)
     out_path = DOCS_DIR / "index.html"
     out_path.write_text(build_site(conn, min_score), encoding="utf-8")
+    write_sitemap()
     return out_path
