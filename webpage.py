@@ -17,6 +17,13 @@ from db import fetch_recent
 DOCS_DIR = Path(__file__).parent / "docs"
 WINDOW_DAYS = 7
 
+GEO_LABELS = {
+    "local": "Halifax / Atlantic Canada",
+    "canada": "Canada",
+    "north_america": "North America",
+    "global": "Global",
+}
+
 # Simple monogram favicon (dark ink square, italic brass "A") - kept as an
 # inline SVG data URI so there's no separate binary asset file to manage.
 _FAVICON_RAW_SVG = (
@@ -28,17 +35,15 @@ _FAVICON_RAW_SVG = (
 )
 FAVICON_SVG = base64.b64encode(_FAVICON_RAW_SVG.encode()).decode()
 
-GEO_LABELS = {
-    "local": "Halifax / Atlantic Canada",
-    "canada": "Canada",
-    "north_america": "North America",
-    "global": "Global",
-}
-
 # Light mode is the brand's home base (warm off-grey + brass accent).
 # Dark mode reuses the same family, shifted onto a warm near-black ground -
 # same brass accent, so it reads as one brand rather than an auto-inverted
 # afterthought.
+#
+# Layout: a sticky sidebar (brand + category nav) alongside a focused
+# reading column, rather than one long centered page - keeps line length
+# readable while giving the wide desktop viewport an actual job, and is
+# where a future email-signup box would live.
 STYLE = """<style>
 :root {
   --bg: #f4f3f0;
@@ -75,20 +80,30 @@ STYLE = """<style>
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin: 0; -webkit-font-smoothing: antialiased; }
 .tabular { font-variant-numeric: tabular-nums; }
-.digest { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-.masthead { margin-bottom: 2.5rem; }
-.eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 1rem; }
-.masthead-title { font-family: var(--font-display); font-style: italic; font-size: clamp(2.1rem, 5vw, 2.6rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 0.6rem; text-wrap: balance; }
-.masthead-meta { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1.1rem; }
-.masthead-note { font-size: 0.85rem; line-height: 1.55; color: var(--ink-faint); margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--line); max-width: 56ch; }
-.category-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3.25rem; }
-.nav-chip { font-size: 0.78rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 100px; padding: 0.4rem 0.85rem; transition: border-color 0.15s ease, color 0.15s ease; }
-.nav-chip:hover { border-color: var(--accent); color: var(--accent-strong); }
-.nav-count { color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+.page-shell { display: grid; grid-template-columns: 260px 1fr; align-items: start; max-width: 1120px; margin: 0 auto; }
+
+.sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 3rem 1.75rem 2rem; border-right: 1px solid var(--line); }
+.eyebrow { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.9rem; }
+.brand-title { font-family: var(--font-display); font-style: italic; font-size: 1.7rem; font-weight: 500; line-height: 1.08; margin: 0 0 1.75rem; text-wrap: balance; }
+
+.side-nav { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.75rem; }
+.side-nav a { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; padding: 0.45rem 0.7rem; border: 1px solid var(--line); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease; }
+.side-nav a:hover { border-color: var(--accent); color: var(--accent-strong); background: var(--panel); }
+.side-count { color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.68rem; }
+
+.side-note { font-size: 0.78rem; line-height: 1.6; color: var(--ink-faint); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.side-note code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.35em; border-radius: 4px; }
+
+.main { padding: 3rem 2.5rem 5rem; min-width: 0; }
+.main-inner { max-width: 620px; }
+
 .category { margin-bottom: 3.25rem; scroll-margin-top: 1.5rem; }
+.category:last-child { margin-bottom: 0; }
 .category-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line-strong); padding-bottom: 0.6rem; margin-bottom: 1.6rem; }
 .category-label { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; font-weight: 500; margin: 0; }
 .category-count { font-size: 0.78rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
 .item-list { display: flex; flex-direction: column; }
 .item { padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
 .item:first-child { padding-top: 0; }
@@ -106,9 +121,15 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 .relevance-score { margin-left: auto; font-weight: 700; color: var(--accent-strong); background: var(--accent-soft); padding: 0.12rem 0.5rem; border-radius: 4px; }
 .item-summary { font-family: var(--font-body); font-size: 0.88rem; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 62ch; }
 .empty-note { font-size: 0.88rem; color: var(--ink-faint); font-style: italic; }
-.colophon { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--ink-faint); }
-.colophon code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.4em; border-radius: 4px; }
-@media (max-width: 480px) { .digest { padding: 2.75rem 1.1rem 4rem; } .item-meta { row-gap: 0.4rem; } .relevance-score { margin-left: 0; } }
+
+@media (max-width: 780px) {
+  .page-shell { display: block; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 2.5rem 1.25rem 1.75rem; }
+  .side-nav { flex-direction: row; flex-wrap: wrap; }
+  .side-nav a { flex: 0 0 auto; border-radius: 100px; }
+  .main { padding: 2rem 1.25rem 4rem; }
+  .main-inner { max-width: none; }
+}
 </style>
 """
 
@@ -165,8 +186,8 @@ def build_site(conn, min_score: int) -> str:
             continue
         total += len(rows)
         nav_items.append(
-            f'<a class="nav-chip" href="#{slug}">{html.escape(label)} '
-            f'<span class="nav-count">{len(rows)}</span></a>'
+            f'<a href="#{slug}">{html.escape(label)} '
+            f'<span class="side-count">{len(rows)}</span></a>'
         )
         items_html = "".join(render_item(row) for row in rows)
         sections.append(f"""
@@ -180,7 +201,7 @@ def build_site(conn, min_score: int) -> str:
         """)
 
     body = "".join(sections) if sections else '<p class="empty-note">No relevant items found in the last 7 days.</p>'
-    nav = f'<nav class="category-nav" aria-label="Jump to category">{"".join(nav_items)}</nav>' if nav_items else ""
+    nav = f'<nav class="side-nav" aria-label="Jump to category">{"".join(nav_items)}</nav>' if nav_items else ""
 
     description = (
         "Daily curated intelligence for medical aesthetics operators - regulatory changes, "
@@ -207,18 +228,18 @@ def build_site(conn, min_score: int) -> str:
 {STYLE}
 </head>
 <body>
-<div class="digest">
-  <header class="masthead">
+<div class="page-shell">
+  <aside class="sidebar">
     <p class="eyebrow">Independent Intelligence for Aesthetic Medicine</p>
-    <h1 class="masthead-title">The Aesthetic Brief</h1>
-    <p class="masthead-meta">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days</p>
-    <p class="masthead-note">Automatically compiled daily from regulator feeds, trade publications, and targeted news searches. Relevance is scored 1&ndash;5 by keyword rules (not AI); anything scoring below 3 is discarded.</p>
-  </header>
-  {nav}
-  {body}
-  <footer class="colophon">
-    <p>Generated by <code>scanner.py</code> &middot; rolling {WINDOW_DAYS}-day window &middot; refreshes daily</p>
-  </footer>
+    <h1 class="brand-title">The Aesthetic Brief</h1>
+    {nav}
+    <p class="side-note">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days.<br><br>Compiled daily from regulator feeds, trade publications, and targeted news searches. Relevance scored 1&ndash;5 by keyword rules (not AI); anything below 3 is discarded.<br><br>Generated by <code>scanner.py</code></p>
+  </aside>
+  <main class="main">
+    <div class="main-inner">
+      {body}
+    </div>
+  </main>
 </div>
 </body>
 </html>

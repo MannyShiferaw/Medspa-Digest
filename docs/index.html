@@ -50,20 +50,30 @@
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin: 0; -webkit-font-smoothing: antialiased; }
 .tabular { font-variant-numeric: tabular-nums; }
-.digest { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-.masthead { margin-bottom: 2.5rem; }
-.eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 1rem; }
-.masthead-title { font-family: var(--font-display); font-style: italic; font-size: clamp(2.1rem, 5vw, 2.6rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 0.6rem; text-wrap: balance; }
-.masthead-meta { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1.1rem; }
-.masthead-note { font-size: 0.85rem; line-height: 1.55; color: var(--ink-faint); margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--line); max-width: 56ch; }
-.category-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3.25rem; }
-.nav-chip { font-size: 0.78rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 100px; padding: 0.4rem 0.85rem; transition: border-color 0.15s ease, color 0.15s ease; }
-.nav-chip:hover { border-color: var(--accent); color: var(--accent-strong); }
-.nav-count { color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+.page-shell { display: grid; grid-template-columns: 260px 1fr; align-items: start; max-width: 1120px; margin: 0 auto; }
+
+.sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 3rem 1.75rem 2rem; border-right: 1px solid var(--line); }
+.eyebrow { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.9rem; }
+.brand-title { font-family: var(--font-display); font-style: italic; font-size: 1.7rem; font-weight: 500; line-height: 1.08; margin: 0 0 1.75rem; text-wrap: balance; }
+
+.side-nav { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.75rem; }
+.side-nav a { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; padding: 0.45rem 0.7rem; border: 1px solid var(--line); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease; }
+.side-nav a:hover { border-color: var(--accent); color: var(--accent-strong); background: var(--panel); }
+.side-count { color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.68rem; }
+
+.side-note { font-size: 0.78rem; line-height: 1.6; color: var(--ink-faint); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.side-note code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.35em; border-radius: 4px; }
+
+.main { padding: 3rem 2.5rem 5rem; min-width: 0; }
+.main-inner { max-width: 620px; }
+
 .category { margin-bottom: 3.25rem; scroll-margin-top: 1.5rem; }
+.category:last-child { margin-bottom: 0; }
 .category-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line-strong); padding-bottom: 0.6rem; margin-bottom: 1.6rem; }
 .category-label { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; font-weight: 500; margin: 0; }
 .category-count { font-size: 0.78rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
 .item-list { display: flex; flex-direction: column; }
 .item { padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
 .item:first-child { padding-top: 0; }
@@ -81,22 +91,29 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 .relevance-score { margin-left: auto; font-weight: 700; color: var(--accent-strong); background: var(--accent-soft); padding: 0.12rem 0.5rem; border-radius: 4px; }
 .item-summary { font-family: var(--font-body); font-size: 0.88rem; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 62ch; }
 .empty-note { font-size: 0.88rem; color: var(--ink-faint); font-style: italic; }
-.colophon { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--ink-faint); }
-.colophon code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.4em; border-radius: 4px; }
-@media (max-width: 480px) { .digest { padding: 2.75rem 1.1rem 4rem; } .item-meta { row-gap: 0.4rem; } .relevance-score { margin-left: 0; } }
+
+@media (max-width: 780px) {
+  .page-shell { display: block; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 2.5rem 1.25rem 1.75rem; }
+  .side-nav { flex-direction: row; flex-wrap: wrap; }
+  .side-nav a { flex: 0 0 auto; border-radius: 100px; }
+  .main { padding: 2rem 1.25rem 4rem; }
+  .main-inner { max-width: none; }
+}
 </style>
 
 </head>
 <body>
-<div class="digest">
-  <header class="masthead">
+<div class="page-shell">
+  <aside class="sidebar">
     <p class="eyebrow">Independent Intelligence for Aesthetic Medicine</p>
-    <h1 class="masthead-title">The Aesthetic Brief</h1>
-    <p class="masthead-meta">Updated 2026-07-14 &middot; <span class="tabular">463</span> item(s) from the last 7 days</p>
-    <p class="masthead-note">Automatically compiled daily from regulator feeds, trade publications, and targeted news searches. Relevance is scored 1&ndash;5 by keyword rules (not AI); anything scoring below 3 is discarded.</p>
-  </header>
-  <nav class="category-nav" aria-label="Jump to category"><a class="nav-chip" href="#regulatory">Regulatory / Legal <span class="nav-count">89</span></a><a class="nav-chip" href="#clinical">Clinical / Treatment Trends <span class="nav-count">62</span></a><a class="nav-chip" href="#financial">Financial / Industry Trends <span class="nav-count">87</span></a><a class="nav-chip" href="#marketing">Marketing / Growth Strategy <span class="nav-count">68</span></a><a class="nav-chip" href="#consumer">Consumer Trend Shifts <span class="nav-count">69</span></a><a class="nav-chip" href="#competitive">Competitive / Market Landscape <span class="nav-count">88</span></a></nav>
-  
+    <h1 class="brand-title">The Aesthetic Brief</h1>
+    <nav class="side-nav" aria-label="Jump to category"><a href="#regulatory">Regulatory / Legal <span class="side-count">89</span></a><a href="#clinical">Clinical / Treatment Trends <span class="side-count">62</span></a><a href="#financial">Financial / Industry Trends <span class="side-count">86</span></a><a href="#marketing">Marketing / Growth Strategy <span class="side-count">67</span></a><a href="#consumer">Consumer Trend Shifts <span class="side-count">68</span></a><a href="#competitive">Competitive / Market Landscape <span class="side-count">88</span></a></nav>
+    <p class="side-note">Updated 2026-07-14 &middot; <span class="tabular">460</span> item(s) from the last 7 days.<br><br>Compiled daily from regulator feeds, trade publications, and targeted news searches. Relevance scored 1&ndash;5 by keyword rules (not AI); anything below 3 is discarded.<br><br>Generated by <code>scanner.py</code></p>
+  </aside>
+  <main class="main">
+    <div class="main-inner">
+      
         <section class="category" id="regulatory">
           <div class="category-head">
             <h2 class="category-label">Regulatory / Legal</h2>
@@ -1928,7 +1945,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <section class="category" id="financial">
           <div class="category-head">
             <h2 class="category-label">Financial / Industry Trends</h2>
-            <span class="category-count">87 items</span>
+            <span class="category-count">86 items</span>
           </div>
           <div class="item-list">
     <article class="item">
@@ -2095,18 +2112,6 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <span class="geo-pill geo-canada">Canada</span>
         <span class="meta-dot">&middot;</span><span class="meta-date">Feb 24</span>
         <span class="relevance-score" title="Relevance score">5/5</span>
-      </div>
-      
-    </article>
-    
-    <article class="item">
-      <h3 class="item-title"><a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxONHZibVNlZEluQkZuNzcxejNnUlN6Z2REWC1Md1JFbEdkX3Z3czlrMEtNeVNISTBTMUhuQXFXYlVtRXYzMmlxU0hVOHhvVmZXN3FrSWE0al9OU0lHOXBBTVhfNlN1bUVvdFEwMEJjUDNGVWUyM05PTk90VjhsQjlseEVR?oc=5" target="_blank" rel="noopener">VIO Med Spa Expands Atlanta Footprint with New Franchise Agreement - Yahoo Finance UK</a></h3>
-      <div class="item-meta">
-        <span class="meta-source">Google News: med spa industry benchmarks</span>
-        <span class="meta-dot">&middot;</span>
-        <span class="geo-pill geo-global">Global</span>
-        <span class="meta-dot">&middot;</span><span class="meta-date">Jul 13</span>
-        <span class="relevance-score" title="Relevance score">4/5</span>
       </div>
       
     </article>
@@ -2980,7 +2985,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <section class="category" id="marketing">
           <div class="category-head">
             <h2 class="category-label">Marketing / Growth Strategy</h2>
-            <span class="category-count">68 items</span>
+            <span class="category-count">67 items</span>
           </div>
           <div class="item-list">
     <article class="item">
@@ -3365,18 +3370,6 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <span class="relevance-score" title="Relevance score">4/5</span>
       </div>
       <p class="item-summary">Beauty’s Rush Into GLP-1 Hair Loss Beauty Independent</p>
-    </article>
-    
-    <article class="item">
-      <h3 class="item-title"><a href="https://news.google.com/rss/articles/CBMingFBVV95cUxOZjByU3NEQUN4WENxdGVQS3ozSjl3N0FBMFpSeUdkeHd0MG5GYnZHQU1yZTNOQlpaMlN6dExBeUd1ZV9uWkFZUzN0TDdQOWVOX09vemQ2MUktVjdCQ2hoTE1JM1cyMTBEQnZGOFl3S0pmM1JzX0VfZmVSTldRNElieWd0T0lsU3J3b0RJdXhiQnRVUmZmaWgtUG1ibXdCdw?oc=5" target="_blank" rel="noopener">Ziba Med Spa Announces First Anniversary Celebration and Spring Wellness Treatment Packages - Yahoo Finance</a></h3>
-      <div class="item-meta">
-        <span class="meta-source">Google News: membership/subscription model wellness clinics</span>
-        <span class="meta-dot">&middot;</span>
-        <span class="geo-pill geo-global">Global</span>
-        <span class="meta-dot">&middot;</span><span class="meta-date">Apr 10</span>
-        <span class="relevance-score" title="Relevance score">4/5</span>
-      </div>
-      
     </article>
     
     <article class="item">
@@ -3804,7 +3797,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <section class="category" id="consumer">
           <div class="category-head">
             <h2 class="category-label">Consumer Trend Shifts</h2>
-            <span class="category-count">69 items</span>
+            <span class="category-count">68 items</span>
           </div>
           <div class="item-list">
     <article class="item">
@@ -4417,18 +4410,6 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
         <span class="relevance-score" title="Relevance score">3/5</span>
       </div>
       
-    </article>
-    
-    <article class="item">
-      <h3 class="item-title"><a href="https://news.google.com/rss/articles/CBMib0FVX3lxTE1pM285d3ZXeVg2bDVoclpDbVdPSFFWMDBGbFhRVTBxN1ozRkF5Uy1Dd2RlNGxucmhuaGtULVJOcF83TEQxLTBMZnZEVkVvWWhmY0NqRjJ4SVlQY3RId19OQ1RxTDUyaFNCRE5OSjB2UdIBdEFVX3lxTE1KLTF6RW51dUJZcTRxRUNubDNjNnd2STUtUjdHdGR4NVFMaGNGckhrc1JVa2lkQ3hOTU54ZUhUaFpzNE8zU01OVGdfNWZvRjNLX21rZHF3bm04d1hENjNpRVVEUk94U2lxa0VTN001UGFUSVdD?oc=5" target="_blank" rel="noopener">Intensely Hydrating Anti-Aging Creams - Trend Hunter</a></h3>
-      <div class="item-meta">
-        <span class="meta-source">Google News: Ozempic face / GLP-1 aesthetic trend</span>
-        <span class="meta-dot">&middot;</span>
-        <span class="geo-pill geo-global">Global</span>
-        <span class="meta-dot">&middot;</span><span class="meta-date">Feb 20</span>
-        <span class="relevance-score" title="Relevance score">3/5</span>
-      </div>
-      <p class="item-summary">Intensely Hydrating Anti-Aging Creams Trend Hunter</p>
     </article>
     
     <article class="item">
@@ -5701,9 +5682,8 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
     </div>
         </section>
         
-  <footer class="colophon">
-    <p>Generated by <code>scanner.py</code> &middot; rolling 7-day window &middot; refreshes daily</p>
-  </footer>
+    </div>
+  </main>
 </div>
 </body>
 </html>
