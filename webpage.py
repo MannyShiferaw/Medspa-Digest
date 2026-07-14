@@ -98,8 +98,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
    own title/subheader/button and needs real room, or it wraps into an
    unreadable vertical stack. */
 .subscribe-banner { border-bottom: 1px solid var(--line); background: var(--panel); }
-.subscribe-banner-inner { max-width: 640px; margin: 0 auto; padding: 2.25rem 1.5rem; text-align: center; }
-.subscribe-banner .sidebar-label { color: var(--accent); }
+.subscribe-banner-inner { max-width: 640px; margin: 0 auto; padding: 0.5rem 1.5rem 0; text-align: center; }
 .subscribe-embed { max-width: 100%; }
 
 .page-shell { display: grid; grid-template-columns: 260px 1fr; align-items: start; max-width: 1120px; margin: 0 auto; }
@@ -256,7 +255,6 @@ def build_site(conn, min_score: int) -> str:
 </header>
 <div class="subscribe-banner">
   <div class="subscribe-banner-inner">
-    <p class="sidebar-label">Get It By Email</p>
     <div class="subscribe-embed">{BEEHIIV_EMBED}</div>
   </div>
 </div>
