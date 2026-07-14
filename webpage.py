@@ -44,6 +44,15 @@ BEEHIIV_EMBED = (
     'data-beehiiv-form="44940058-f306-4ebf-b43c-20ec5c062f93"></script>'
 )
 
+# Lets Beehiiv attribute new subscribers to this site (vs. other referral
+# sources) rather than just counting raw signups with no source data.
+# Site-wide, loaded early in <head> so it captures visit context before
+# anyone reaches the signup form.
+BEEHIIV_ATTRIBUTION = (
+    '<script type="text/javascript" async '
+    'src="https://subscribe-forms.beehiiv.com/attribution.js"></script>'
+)
+
 # Light mode is the brand's home base (warm off-grey + brass accent).
 # Dark mode reuses the same family, shifted onto a warm near-black ground -
 # same brass accent, so it reads as one brand rather than an auto-inverted
@@ -246,6 +255,7 @@ def build_site(conn, min_score: int) -> str:
 <meta name="twitter:title" content="The Aesthetic Brief">
 <meta name="twitter:description" content="{html.escape(description)}">
 <link rel="icon" href="data:image/svg+xml;base64,{FAVICON_SVG}">
+{BEEHIIV_ATTRIBUTION}
 {STYLE}
 </head>
 <body>
