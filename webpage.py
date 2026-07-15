@@ -99,7 +99,7 @@ STYLE = """<style>
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin: 0; -webkit-font-smoothing: antialiased; }
 .tabular { font-variant-numeric: tabular-nums; }
 
-.site-header { text-align: center; padding: 3.5rem 1.5rem 2.75rem; border-bottom: 1px solid var(--line); }
+.site-header { text-align: center; padding: 3rem 1.5rem 1.75rem; border-bottom: 1px solid var(--line); }
 .site-header .eyebrow { margin: 0 0 0.9rem; }
 .site-header .brand-title { font-family: var(--font-display); font-style: italic; font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 500; line-height: 1.08; margin: 0 0 1rem; text-wrap: balance; }
 .site-tagline { font-size: 0.98rem; line-height: 1.6; color: var(--ink-soft); max-width: 46ch; margin: 0 auto; text-wrap: balance; }
@@ -155,7 +155,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 .empty-note { font-size: 0.88rem; color: var(--ink-faint); font-style: italic; }
 
 @media (max-width: 780px) {
-  .site-header { padding: 2.75rem 1.25rem 2rem; }
+  .site-header { padding: 2.5rem 1.25rem 1.5rem; }
   .page-shell { display: block; }
   .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 2rem 1.25rem 1.75rem; }
   .side-nav { flex-direction: row; flex-wrap: wrap; }
@@ -266,7 +266,7 @@ def build_site(conn, min_score: int) -> str:
 <header class="site-header">
   <p class="eyebrow">Independent Intelligence for Aesthetic Medicine</p>
   <h1 class="brand-title">The Aesthetic Brief</h1>
-  <p class="site-tagline">The daily business and industry briefing for medical-aesthetics professionals. Regulatory updates, treatment trends, market intelligence, and growth strategies, filtered into what actually matters for your clinic.</p>
+  <p class="site-tagline">The daily business and industry briefing for medical-aesthetics professionals.</p>
 </header>
 <div class="subscribe-banner">
   <div class="subscribe-banner-inner">
