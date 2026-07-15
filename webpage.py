@@ -277,7 +277,7 @@ def build_site(conn, min_score: int) -> str:
   <aside class="sidebar">
     <p class="sidebar-label">Sections</p>
     {nav}
-    <p class="side-note">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days.<br><br>We monitor regulators, trade publications, business news, and clinical sources daily, filtering out low-relevance coverage.<br><br>Compiled daily by The Aesthetic Brief intelligence desk.<br><br><a href="/about.html">About &amp; contact</a></p>
+    <p class="side-note">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days.<br><br>We monitor regulators, trade publications, business news, and clinical sources daily, filtering out low-relevance coverage.<br><br>Compiled daily by The Aesthetic Brief intelligence desk.<br><br><a href="/about.html">About &amp; contact</a> &middot; <a href="/privacy.html">Privacy</a></p>
   </aside>
   <main class="main">
     <div class="main-inner">
