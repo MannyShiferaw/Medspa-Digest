@@ -124,6 +124,8 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 
 .side-note { font-size: 0.78rem; line-height: 1.6; color: var(--ink-faint); padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .side-note code { font-family: var(--font-mono); background: var(--panel); border: 1px solid var(--line); padding: 0.05em 0.35em; border-radius: 4px; }
+.side-note a { color: var(--ink-soft); }
+.side-note a:hover { color: var(--accent-strong); }
 
 .main { padding: 3rem 2.5rem 5rem; min-width: 0; }
 .main-inner { max-width: 620px; }
@@ -275,7 +277,7 @@ def build_site(conn, min_score: int) -> str:
   <aside class="sidebar">
     <p class="sidebar-label">Sections</p>
     {nav}
-    <p class="side-note">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days.<br><br>We monitor regulators, trade publications, business news, and clinical sources daily, filtering out low-relevance coverage.<br><br>Compiled daily by The Aesthetic Brief intelligence desk.</p>
+    <p class="side-note">Updated {date.today().isoformat()} &middot; <span class="tabular">{total}</span> item(s) from the last {WINDOW_DAYS} days.<br><br>We monitor regulators, trade publications, business news, and clinical sources daily, filtering out low-relevance coverage.<br><br>Compiled daily by The Aesthetic Brief intelligence desk.<br><br><a href="/about.html">About &amp; contact</a></p>
   </aside>
   <main class="main">
     <div class="main-inner">
