@@ -99,8 +99,11 @@ SOURCES = [
         "base_score": 2,
     },
     {
+        # "nursing" alone was too broad here - pulled in unrelated NS nursing
+        # stories (e.g. midwife scope-of-practice news). Narrowed to
+        # aesthetics-specific nursing terms only.
         "name": "Google News: Nova Scotia nursing/med spa regulation",
-        "url": google_news_url('"Nova Scotia" (nursing OR "medical aesthetics" OR "medical spa") regulation', canada=True),
+        "url": google_news_url('"Nova Scotia" ("aesthetic nurse" OR "cosmetic injector" OR "medical aesthetics" OR "medical spa") regulation', canada=True),
         "category": "regulatory",
         "base_score": 2,
     },
