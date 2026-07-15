@@ -17,6 +17,7 @@ import sources as source_fetcher
 import scoring
 import digest
 import webpage
+import emaildraft
 
 
 def run(category: str | None):
@@ -54,6 +55,9 @@ def run(category: str | None):
 
     site_path = webpage.write_site(conn)
     print(f"Website updated: {site_path}")
+
+    draft_path = emaildraft.write_draft(conn)
+    print(f"Email draft written to: {draft_path}")
 
     conn.close()
 
